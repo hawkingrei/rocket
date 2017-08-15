@@ -91,6 +91,7 @@ func (inj *injector) Invoke(f interface{}) ([]reflect.Value, error) {
 	var in = make([]reflect.Value, t.NumIn()) //Panic if t is not kind of Func
 	for i := 0; i < t.NumIn(); i++ {
 		argType := t.In(i)
+		//fmt.Println("its name is ", argType.String())
 		val := inj.Get(argType)
 		if !val.IsValid() {
 			return nil, fmt.Errorf("Value not found for type %v", argType)
@@ -139,11 +140,17 @@ func (inj *injector) Apply(val interface{}) error {
 // Maps the concrete value of val to its dynamic type using reflect.TypeOf,
 // It returns the TypeMapper registered in.
 func (i *injector) Map(val interface{}) TypeMapper {
+	if _, ok := i.values[reflect.TypeOf(val)]; ok {
+		panic("Duplicate type")
+	}
 	i.values[reflect.TypeOf(val)] = reflect.ValueOf(val)
 	return i
 }
 
 func (i *injector) MapTo(val interface{}, ifacePtr interface{}) TypeMapper {
+	if _, ok := i.values[InterfaceOf(ifacePtr)]; ok {
+		panic("Duplicate type")
+	}
 	i.values[InterfaceOf(ifacePtr)] = reflect.ValueOf(val)
 	return i
 }
