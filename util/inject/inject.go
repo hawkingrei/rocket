@@ -37,6 +37,7 @@ type Invoker interface {
 
 // TypeMapper represents an interface for mapping interface{} values based on type.
 type TypeMapper interface {
+	HasType(interface{}) bool
 	// Maps the interface{} value based on its immediate type from reflect.TypeOf.
 	Map(interface{}) TypeMapper
 	// Maps the interface{} value based on the pointer of an Interface provided.
@@ -135,6 +136,13 @@ func (inj *injector) Apply(val interface{}) error {
 	}
 
 	return nil
+}
+
+func (i *injector) HasType(ifacePtr interface{}) bool {
+	if _, ok := i.values[InterfaceOf(ifacePtr)]; ok {
+		return true
+	}
+	return false
 }
 
 // Maps the concrete value of val to its dynamic type using reflect.TypeOf,
