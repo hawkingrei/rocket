@@ -29,7 +29,6 @@ func (o *Other) Two(a int) {
 }
 
 func main() {
-
 	wf := component.NewWorkflow()
 	one := Other{Id: 1}
 	inj := inject.New()

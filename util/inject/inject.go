@@ -148,17 +148,17 @@ func (i *injector) HasType(ifacePtr interface{}) bool {
 // Maps the concrete value of val to its dynamic type using reflect.TypeOf,
 // It returns the TypeMapper registered in.
 func (i *injector) Map(val interface{}) TypeMapper {
-	if _, ok := i.values[reflect.TypeOf(val)]; ok {
-		panic("Duplicate type")
-	}
+	//if _, ok := i.values[reflect.TypeOf(val)]; ok {
+	//	panic("Duplicate type")
+	//}
 	i.values[reflect.TypeOf(val)] = reflect.ValueOf(val)
 	return i
 }
 
 func (i *injector) MapTo(val interface{}, ifacePtr interface{}) TypeMapper {
-	if _, ok := i.values[InterfaceOf(ifacePtr)]; ok {
-		panic("Duplicate type")
-	}
+	//if _, ok := i.values[InterfaceOf(ifacePtr)]; ok {
+	//	panic("Duplicate type")
+	//}
 	i.values[InterfaceOf(ifacePtr)] = reflect.ValueOf(val)
 	return i
 }
